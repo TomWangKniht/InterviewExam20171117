@@ -1,0 +1,133 @@
+﻿
+@model Web.ViewModel.OrderListViewModel
+
+@{
+    ViewBag.Title = "訂單資料";
+}
+
+<h2>訂單資料</h2>
+@section Scripts{
+    @Scripts.Render("~/bundles/unobtrusive-ajax")
+    <script>
+        function ClickID(id) {
+            $("#DetailId").val(id);
+            $("#FormShowDetail").submit();
+        }
+    </script>
+}
+
+<table class="table">
+    <tr>
+				<th>
+					@Html.DisplayNameFor(model => model.DataList.FirstOrDefault().Id)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.DataList.FirstOrDefault().CustomerID)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.DataList.FirstOrDefault().EmployeeID)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.DataList.FirstOrDefault().OrderDate)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.DataList.FirstOrDefault().RequiredDate)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.DataList.FirstOrDefault().ShippedDate)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.DataList.FirstOrDefault().ShipVia)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.DataList.FirstOrDefault().Freight)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.DataList.FirstOrDefault().ShipName)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.DataList.FirstOrDefault().ShipAddress)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.DataList.FirstOrDefault().ShipCity)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.DataList.FirstOrDefault().ShipRegion)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.DataList.FirstOrDefault().ShipPostalCode)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.DataList.FirstOrDefault().ShipCountry)
+				</th>
+    </tr>
+    @foreach (var item in Model.DataList)
+    {
+        <tr>
+					<td>
+						<label onclick="ClickID('@item.Id')">@item.Id</label>
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.CustomerID)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.EmployeeID)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.OrderDate)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.RequiredDate)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.ShippedDate)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.ShipVia)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Freight)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.ShipName)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.ShipAddress)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.ShipCity)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.ShipRegion)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.ShipPostalCode)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.ShipCountry)
+					</td>
+        </tr>
+    }
+
+</table>
+<div class="pager">
+    @Html.Pager(Model.DataList.PageSize, Model.DataList.PageNumber, Model.DataList.TotalItemCount).Options(o => o
+    .DisplayFirstAndLastPage()
+    .SetFirstPageText("First")
+    .SetLastPageText("Last")
+    .SetPreviousPageText("Prev")
+    .SetNextPageText("Next")
+    )
+    顯示 @Model.DataList.ItemStart - @Model.DataList.ItemEnd 筆資料，共 @Model.DataList.TotalItemCount 筆資料
+</div>
+@using (Ajax.BeginForm("ShowDetail", "Order", new AjaxOptions
+{
+    UpdateTargetId = "ajaxResult"
+}, new { @Id= "FormShowDetail" }))
+
+{
+    @Html.Hidden("Id", null, new { @Id = "DetailId" })
+}
+<div id="ajaxResult">
+
+</div>
